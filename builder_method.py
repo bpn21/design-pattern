@@ -1,54 +1,137 @@
-# Using Factory Method Design Pattern
+class Car:
+    def __init__(self, engine, wheels, color, interior):
+        self.engine = engine
+        self.wheels = wheels
+        self.color = color
+        self.interior = interior
 
-# Abstract class defining a common interface for all notification types
-class Notification:
-    def send(self):
-        raise NotImplementedError("Subclasses should implement this method")
+    def __str__(self):
+        return f"Car with {self.engine}, {self.wheels} wheels, color {self.color}, and {self.interior} interior"
 
-# Concrete class for email notifications
-class EmailNotification(Notification):
-    def send(self):
-        print("Sending email notification...")
 
-# Concrete class for SMS notifications
-class SMSNotification(Notification):
-    def send(self):
-        print("Sending SMS notification...")
+# Client Code: Creating a complex car object manually
+if __name__ == "__main__":
+    # Manually specifying all the parts
+    car1 = Car("V8 Engine", "4 sporty wheels", "Red", "Leather seats")
+    print("Car 1:", car1)
 
-# Concrete class for push notifications
-class PushNotification(Notification):
-    def send(self):
-        print("Sending Push notification...")
+    car2 = Car("V6 Engine", "4 rugged wheels", "Blue", "Fabric seats")
+    print("Car 2:", car2)
 
-# Factory class responsible for creating instances of different notification types
-class NotificationFactory:
-    @staticmethod
-    def create_notification(notification_type):
-        """
-        This factory method is responsible for creating the appropriate
-        notification object based on the provided type.
-        This helps in keeping the creation logic separate from the client code,
-        and it can easily be extended to handle new types of notifications.
-        """
-        if notification_type == "email":
-            return EmailNotification()  # Create and return EmailNotification instance
-        elif notification_type == "sms":
-            return SMSNotification()  # Create and return SMSNotification instance
-        elif notification_type == "push":
-            return PushNotification()  # Create and return PushNotification instance
-        else:
-            raise ValueError("Unknown notification type")  # Handle invalid types
 
-# Client code
-# Instead of directly creating notification objects in the client code,
-# we use the NotificationFactory to create them.
 
-email_service = NotificationFactory.create_notification("email")
-email_service.send()  # Sending email notification...
 
-sms_service = NotificationFactory.create_notification("sms")
-sms_service.send()  # Sending SMS notification...
+#Using Builder Design Pattern
+# from abc import ABC, abstractmethod
 
-push_service = NotificationFactory.create_notification("push")
-push_service.send()  # Sending Push notification...
 
+# Product: Car
+class Car:
+    def __init__(self):
+        self.engine = None
+        self.wheels = None
+        self.color = None
+        self.interior = None
+
+    def __str__(self):
+        return f"Car with {self.engine}, {self.wheels} wheels, color {self.color}, and {self.interior} interior"
+
+
+# Abstract Builder
+class CarBuilder(ABC):
+    @abstractmethod
+    def build_engine(self):
+        pass
+
+    @abstractmethod
+    def build_wheels(self):
+        pass
+
+    @abstractmethod
+    def build_color(self):
+        pass
+
+    @abstractmethod
+    def build_interior(self):
+        pass
+
+    @abstractmethod
+    def get_car(self):
+        pass
+
+
+# Concrete Builder for SportsCar
+class SportsCarBuilder(CarBuilder):
+    def __init__(self):
+        self.car = Car()
+
+    def build_engine(self):
+        self.car.engine = "V8 Engine"
+
+    def build_wheels(self):
+        self.car.wheels = "4 sporty wheels"
+
+    def build_color(self):
+        self.car.color = "Red"
+
+    def build_interior(self):
+        self.car.interior = "Leather seats"
+
+    def get_car(self):
+        return self.car
+
+
+# Concrete Builder for SUV
+class SUVCarBuilder(CarBuilder):
+    def __init__(self):
+        self.car = Car()
+
+    def build_engine(self):
+        self.car.engine = "V6 Engine"
+
+    def build_wheels(self):
+        self.car.wheels = "4 rugged wheels"
+
+    def build_color(self):
+        self.car.color = "Blue"
+
+    def build_interior(self):
+        self.car.interior = "Fabric seats"
+
+    def get_car(self):
+        return self.car
+
+
+# Director: Orchestrates the construction of a car
+class CarDirector:
+    def __init__(self, builder: CarBuilder):
+        self.builder = builder
+
+    def construct_car(self):
+        self.builder.build_engine()
+        self.builder.build_wheels()
+        self.builder.build_color()
+        self.builder.build_interior()
+
+    def get_car(self):
+        return self.builder.get_car()
+
+
+# Client Code
+if __name__ == "__main__":
+    # Building a Sports Car using the SportsCarBuilder
+    sports_car_builder = SportsCarBuilder()
+    director = CarDirector(sports_car_builder)
+    director.construct_car()
+    sports_car = director.get_car()
+    print("Sports Car:", sports_car)
+
+    print()
+
+    # Building an SUV Car using the SUVCarBuilder
+    suv_car_builder = SUVCarBuilder()
+    director = CarDirector(suv_car_builder)
+    director.construct_car()
+    suv_car = director.get_car()
+    print("SUV Car:", suv_car)
+ 
