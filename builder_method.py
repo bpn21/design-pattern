@@ -1,30 +1,30 @@
-# Without Design Pattern
+# # Without Design Pattern
 
-class Car:
-    def __init__(self, engine, wheels, color, interior):
-        self.engine = engine
-        self.wheels = wheels
-        self.color = color
-        self.interior = interior
+# class Car:
+#     def __init__(self, engine, wheels, color, interior):
+#         self.engine = engine
+#         self.wheels = wheels
+#         self.color = color
+#         self.interior = interior
 
-    def __str__(self):
-        return f"Car with {self.engine}, {self.wheels} wheels, color {self.color}, and {self.interior} interior"
+#     def __str__(self):
+#         return f"Car with {self.engine}, {self.wheels} wheels, color {self.color}, and {self.interior} interior"
 
 
-# Client Code: Creating a complex car object manually
-if __name__ == "__main__":
-    # Manually specifying all the parts
-    car1 = Car("V8 Engine", "4 sporty wheels", "Red", "Leather seats")
-    print("Car 1:", car1)
+# # Client Code: Creating a complex car object manually
+# if __name__ == "__main__":
+#     # Manually specifying all the parts
+#     car1 = Car("V8 Engine", "4 sporty wheels", "Red", "Leather seats")
+#     print("Car 1:", car1)
 
-    car2 = Car("V6 Engine", "4 rugged wheels", "Blue", "Fabric seats")
-    print("Car 2:", car2)
+#     car2 = Car("V6 Engine", "4 rugged wheels", "Blue", "Fabric seats")
+#     print("Car 2:", car2)
 
 
 
 
 #Using Builder Design Pattern
-# from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod
 
 
 # Product: Car
