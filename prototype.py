@@ -26,7 +26,7 @@ def client_code():
     report2 = report1.clone()
     report2.aurthor = "Rajesh Puri"
     report3 = report1.clone()
-    report3.aurthor = 'Suraj'
+    report3.aurthor = "Suraj"
     print(report1)
     print(report2)
     print(report3)
