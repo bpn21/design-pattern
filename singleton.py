@@ -9,7 +9,7 @@ class DatabaseConnection:
 
 db1 = DatabaseConnection()
 db2 = DatabaseConnection()
-# db1 is not equall to db2 // Different instance
+# db1 is not equal to db2 // Different instance
 
 # =======================================
 
@@ -26,4 +26,4 @@ class DatabaseConnection:
 singleton1 = DatabaseConnection()
 singleton2 = DatabaseConnection()
 
-# Here, singleton1 and singleton2 are equall. they both are same instance
+# Here, singleton1 and singleton2 are equal. they both are same instance
