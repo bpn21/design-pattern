@@ -1,4 +1,4 @@
-# from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod
 
 
 # class Shape(ABC):
@@ -34,6 +34,7 @@
 
 # Without Factory Method
 class EmailNotification:
+    @abstractmethod
     def send(self):
         print("Sending email notification...")
 
