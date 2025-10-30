@@ -1,128 +1,55 @@
 from abc import ABC, abstractmethod
 
 
-# class Shape(ABC):
-#     @abstractmethod
-#     def draw(self):
-#         pass
-
-
-# class Trangle(Shape):
-#     def draw(self):
-#         print("Drawing Trangle")
-
-
-# class Circle(Shape):
-#     def draw(self):
-#         print("Drawing Circle")
-
-
-# def draw_shape(shape):
-#     match shape.lower():
-#         case "circle":
-#             return Circle()
-#         case "trangle":
-#             return Trangle()
-#         case _:
-#             raise ValueError("Unknown Shape Type")
-
-
-# if __name__ == "__main__":
-#     input_shape = input("Enter a shape to draw")
-#     object_ = draw_shape(input_shape)
-#     object_.draw()
-
-# Without Factory Method
-class EmailNotification:
+class BakeCake(ABC):
     @abstractmethod
-    def send(self):
-        print("Sending email notification...")
+    def Bake():
+        pass
 
-class SMSNotification:
-    def send(self):
-        print("Sending SMS notification...")
 
-class PushNotification:
-    def send(self):
-        print("Sending Push notification...")
+class VanillaCake(BakeCake):
+    def Bake(self):
+        print("Baking Vanilla Cake")
 
-class NotificationService:
-    def __init__(self, notification_type):
-        # This is the place where we are tightly coupling the service
-        # to the specific notification types. We should not be hardcoding
-        # the instantiation of notification objects here. 
-        if notification_type == "email":
-            self.notification = EmailNotification()  # Refactor needed here
-        elif notification_type == "sms":
-            self.notification = SMSNotification()  # Refactor needed here
-        elif notification_type == "push":
-            self.notification = PushNotification()  # Refactor needed here
-        else:
-            raise ValueError("Unknown notification type")  # Refactor needed here
 
-    def send_notification(self):
-        self.notification.send()
+class StrawberryCake(BakeCake):
+    def Bake(self):
+        print("Baking Strawerry Cake")
 
-# Client code
-email_service = NotificationService("email")
-email_service.send_notification()
 
-sms_service = NotificationService("sms")
-sms_service.send_notification()
+class MochaCake(BakeCake):
+    def Bake(self):
+        print("Backing Mocha Cake")
 
-push_service = NotificationService("push")
-push_service.send_notification()
 
-# Using Factory Method Design Pattern
+class ChocolateCake(BakeCake):
+    def Bake(self):
+        print("Bake Chococlate Cake")
 
-# Abstract class defining a common interface for all notification types
-class Notification:
-    def send(self):
-        raise NotImplementedError("Subclasses should implement this method")
 
-# Concrete class for email notifications
-class EmailNotification(Notification):
-    def send(self):
-        print("Sending email notification...")
+class CakeFactory:
+    # def __init__(self):
+    #     self.cake_type = input("Enter the cake type")
+    def create_cake(cake_type):
+        TYPES = {
+            "vanilla": VanillaCake,
+            "mocha": MochaCake,
+            "chocolate": ChocolateCake,
+            "strawberry": StrawberryCake,
+        }
 
-# Concrete class for SMS notifications
-class SMSNotification(Notification):
-    def send(self):
-        print("Sending SMS notification...")
+        if cake_type not in TYPES:
+            raise ValueError(f"{cake_type} is not avaliable")
 
-# Concrete class for push notifications
-class PushNotification(Notification):
-    def send(self):
-        print("Sending Push notification...")
+        obj = TYPES[cake_type]()
+        # with () paranthesis, object is initiated, without obj we cant access methods inside any classes.
+        return obj
 
-# Factory class responsible for creating instances of different notification types
-class NotificationFactory:
-    @staticmethod
-    def create_notification(notification_type):
-        """
-        This factory method is responsible for creating the appropriate
-        notification object based on the provided type.
-        This helps in keeping the creation logic separate from the client code,
-        and it can easily be extended to handle new types of notifications.
-        """
-        if notification_type == "email":
-            return EmailNotification()  # Create and return EmailNotification instance
-        elif notification_type == "sms":
-            return SMSNotification()  # Create and return SMSNotification instance
-        elif notification_type == "push":
-            return PushNotification()  # Create and return PushNotification instance
-        else:
-            raise ValueError("Unknown notification type")  # Handle invalid types
 
-# Client code
-# Instead of directly creating notification objects in the client code,
-# we use the NotificationFactory to create them.
+# Client Side
+def order_cake(cake_type):
+    cake = CakeFactory.create_cake(cake_type)
+    return cake
 
-email_service = NotificationFactory.create_notification("email")
-email_service.send()  # Sending email notification...
 
-sms_service = NotificationFactory.create_notification("sms")
-sms_service.send()  # Sending SMS notification...
-
-push_service = NotificationFactory.create_notification("push")
-push_service.send()  # Sending Push notification...
+order_cake("mocha").Bake()
